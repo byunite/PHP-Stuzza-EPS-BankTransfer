@@ -2,15 +2,12 @@
 
 namespace at\externet\eps_bank_transfer;
 
-use WpOrg\Requests\Exception\Transport;
-use WpOrg\Requests\Requests;
-
 /**
  * Handles the communication with the EPS scheme operator
  */
 class SoCommunicator
 {
-    const TEST_MODE_URL = 'https://routing-test.eps.or.at/appl/epsSO';
+    const TEST_MODE_URL = 'https://routing.eps.or.at/appl/epsSO-test';
     const LIVE_MODE_URL = 'https://routing.eps.or.at/appl/epsSO';
 
     /**
@@ -22,7 +19,7 @@ class SoCommunicator
     /**
      * requests transport
      * @internal
-     * @var Transport
+     * @var \Requests_Transport     *
      */
     public $Transport;
 
@@ -255,7 +252,7 @@ class SoCommunicator
         $options = $this->Transport === null ? array() : array(
             'transport' => $this->Transport
         );
-        $response = Requests::get($url, array(), $options);
+        $response = \Requests::get($url, array(), $options);
         if ($response->status_code != 200)
         {
             $this->WriteLog($logMessage, false);
@@ -278,7 +275,7 @@ class SoCommunicator
         $options = $this->Transport === null ? array() : array(
             'transport' => $this->Transport
         );
-        $response = Requests::post($url, array('Content-Type' => 'text/xml; charset=UTF-8'), $data, $options);
+        $response = \Requests::post($url, array('Content-Type' => 'text/xml; charset=UTF-8'), $data, $options);
 
         if ($response->status_code != 200)
         {

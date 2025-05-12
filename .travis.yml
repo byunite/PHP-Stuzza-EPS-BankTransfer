@@ -1,10 +1,10 @@
 language: php
 php:
+  - 7.2
   - 7.3
-  - 8.1
 before_script:
-  - composer update
+  - composer require php-coveralls/php-coveralls
 script:
-  - XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-clover build/coverage/clover.xml
+  - phpunit --coverage-clover build/coverage/clover.xml
 after_script:
   - php vendor/bin/php-coveralls -v
